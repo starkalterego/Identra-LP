@@ -5,9 +5,40 @@ import { Github } from "lucide-react";
 
 export function DownloadFooter() {
     return (
-        <section className="py-32 md:py-48 bg-black relative overflow-hidden flex flex-col items-center border-t border-white/[0.05]">
+        <section className="w-full py-32 md:py-48 bg-black relative overflow-hidden flex flex-col items-center border-t border-white/[0.05]">
             {/* Ambient Background - Ultra subtle premium texture */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.03)_0%,transparent_50%)] pointer-events-none" />
+
+            {/* Drifting Nebula 1 - Indigo */}
+            <motion.div
+                className="absolute top-[-20%] left-[20%] w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none"
+                animate={{
+                    x: [0, 50, -50, 0],
+                    y: [0, -30, 30, 0],
+                    scale: [1, 1.1, 0.9, 1],
+                }}
+                transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                }}
+            />
+
+            {/* Drifting Nebula 2 - Teal/Cyan (Complementary) */}
+            <motion.div
+                className="absolute top-[-10%] right-[20%] w-[500px] h-[500px] bg-teal-500/5 rounded-full blur-[100px] mix-blend-screen pointer-events-none"
+                animate={{
+                    x: [0, -30, 30, 0],
+                    y: [0, 50, -50, 0],
+                    scale: [1, 0.9, 1.1, 1],
+                }}
+                transition={{
+                    duration: 25,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 2
+                }}
+            />
 
             {/* Scanning Beam */}
             <motion.div
