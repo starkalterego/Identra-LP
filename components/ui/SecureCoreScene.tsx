@@ -27,37 +27,44 @@ function GeometricFlux() {
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            // 1. Global Group Rotation (Base Movement)
+            // 1. Global Rotation (Base)
             gsap.to(groupRef.current!.rotation, {
-                y: 1.2, // More rotation
-                x: 0.4,
+                y: 1.5,
                 ease: "none",
                 scrollTrigger: {
                     trigger: document.body,
                     start: "top top",
                     end: "bottom bottom",
+                    scrub: 1,
+                }
+            });
+
+            // 2. Section-Based Transformation Narrative
+
+            // "Problem" Section: Chaos/Dispersal
+            // Trigger: When #problem-section enters viewport
+            const problemTimeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#problem-section",
+                    start: "top center",
+                    end: "bottom center",
                     scrub: 1.5,
                 }
             });
 
-            // 2. Independent Parallax for each child (Targeting by index)
-            // We use simple query selector logic or direct ref access if we had an array of refs.
-            // Since we are mapping, we rely on the group structure.
-            if (groupRef.current) {
-                groupRef.current.children.forEach((mesh, i) => {
-                    const factor = shapes[i].parallax;
-                    gsap.to(mesh.position, {
-                        y: `+=${factor * 10}`, // Move UP based on parallax factor
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: document.body,
-                            start: "top top",
-                            end: "bottom bottom",
-                            scrub: 1, // Instant response
-                        }
-                    });
-                });
-            }
+            // Disperse shapes
+            groupRef.current!.children.forEach((mesh, i) => {
+                problemTimeline.to(mesh.position, {
+                    x: (Math.random() - 0.5) * 15, // Scatter wide
+                    y: (Math.random() - 0.5) * 15,
+                    z: (Math.random() - 0.5) * 5,
+                    rotation: Math.random() * Math.PI,
+                    ease: "power2.inOut"
+                }, 0);
+            });
+
+
+
 
             // 3. Dynamic Moving Light (Shifting Reflections)
             if (lightRef.current) {
@@ -169,7 +176,7 @@ export function SecureCoreScene() {
                     <GeometricFlux />
                 </Suspense>
 
-                <ambientLight intensity={0.4} />
+                <ambientLight intensity={2.0} />
                 <rectAreaLight width={20} height={20} position={[0, 10, 0]} color={"#4fd1c5"} intensity={3} />
                 <pointLight position={[-10, 5, -5]} intensity={2} color="#6366f1" />
                 <pointLight position={[10, -5, 5]} intensity={2} color="#ffffff" />

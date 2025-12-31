@@ -21,7 +21,7 @@ export function ProblemInsight() {
     const backgroundLightness = useTransform(scrollYProgress, [0, 1], [0, 0.02]);
 
     return (
-        <section ref={containerRef} className="relative h-[300vh] bg-background z-10 w-full">
+        <section id="problem-section" ref={containerRef} className="relative h-[300vh] bg-transparent z-10 w-full">
             {/* Subtle grain texture for depth */}
             <div
                 className="absolute inset-0 opacity-[0.02] mix-blend-overlay pointer-events-none"
@@ -32,10 +32,7 @@ export function ProblemInsight() {
             />
 
             {/* Dynamic background vignette */}
-            <motion.div
-                className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(0,0,0,0.6)_100%)] pointer-events-none"
-                style={{ opacity: useTransform(backgroundLightness, [0, 0.02], [1, 0.85]) }}
-            />
+
 
             <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
                 <div className="relative w-full text-center h-full flex items-center justify-center">
@@ -91,8 +88,8 @@ function Statement({
         >
             <h2
                 className={`font-display tracking-tight text-foreground leading-tight text-center max-w-4xl transition-all ${isLast
-                        ? 'text-4xl md:text-5xl lg:text-6xl font-semibold' // Final insight: larger, heavier
-                        : 'text-3xl md:text-4xl lg:text-5xl font-normal opacity-90' // Problems: lighter weight, slightly lower opacity
+                    ? 'text-4xl md:text-5xl lg:text-6xl font-semibold' // Final insight: larger, heavier
+                    : 'text-3xl md:text-4xl lg:text-5xl font-normal opacity-90' // Problems: lighter weight, slightly lower opacity
                     }`}
             >
                 {text}

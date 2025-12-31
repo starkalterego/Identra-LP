@@ -29,7 +29,7 @@ export function Differentiation() {
     });
 
     return (
-        <section ref={containerRef} className="bg-black relative h-[300vh] w-full">
+        <section id="differentiation-section" ref={containerRef} className="bg-[#030304] relative h-[300vh] w-full">
             <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden">
                 <div className="container px-6 max-w-5xl mx-auto w-full">
                     {/* Minimal Header - Fades out as we scroll deep */}

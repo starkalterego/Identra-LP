@@ -32,7 +32,7 @@ export function SecurityTrust() {
     const card3Y = useTransform(scrollYProgress, [0.55, 0.9], ["110%", "30%"]);
 
     return (
-        <section ref={containerRef} className="relative h-[250vh] bg-black w-full">
+        <section id="security-section" ref={containerRef} className="relative h-[250vh] bg-[#030304] w-full">
 
             <div className="sticky top-0 h-screen w-full flex flex-col items-center justify-center overflow-hidden px-4 md:px-0 bg-[radial-gradient(circle_at_center,#111_0%,#000_100%)]">
 

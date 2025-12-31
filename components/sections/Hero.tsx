@@ -11,14 +11,14 @@ export function Hero() {
     // containerRef removed as it was unused
 
     return (
-        <section className="relative h-screen w-full flex items-center overflow-hidden bg-transparent">
+        <section id="hero-section" className="relative h-screen w-full flex items-center overflow-hidden bg-transparent">
             {/* Atmosphere Layer: Volumetric Light & Fog */}
             <div className="absolute inset-0 pointer-events-none z-0">
                 {/* 1. Top-Left Spotlight REMOVED */}
-
-                {/* 2. Bottom Fog (Seamless blend to next section) */}
-                <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
+                {/* 2. Bottom Fog REMOVED */}
             </div>
+
+
 
             {/* Content Layer */}
             <div className="relative z-10 container mx-auto px-6 md:px-12 lg:px-24">
