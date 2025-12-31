@@ -1,9 +1,8 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { NeuralWaves } from "@/components/ui/NeuralWaves";
 import { TextReveal } from "@/components/ui/TextReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { useRef } from "react";
@@ -11,31 +10,19 @@ import { useRef } from "react";
 export function Hero() {
     const containerRef = useRef<HTMLDivElement>(null);
 
-    // Scroll-based opacity for the background to fade out as user scrolls
-    const { scrollY } = useScroll();
-    const backgroundOpacity = useTransform(scrollY, [0, 500], [1, 0]);
-
     return (
-        <section ref={containerRef} className="relative h-screen w-full flex items-center overflow-hidden bg-background">
-            {/* Background Layer with Scroll Fade */}
-            <motion.div
-                style={{ opacity: backgroundOpacity }}
-                className="absolute inset-0 z-0 pointer-events-none"
-            >
-                {/* New GSAP/Canvas Neural Stream */}
-                <NeuralWaves />
-
-                {/* Subtle Grain Texture (Kept for finish) */}
+        <section ref={containerRef} className="relative h-screen w-full flex items-center overflow-hidden bg-transparent">
+            {/* Atmosphere Layer: Volumetric Light & Fog */}
+            <div className="absolute inset-0 pointer-events-none z-0">
+                {/* 1. Top-Left Spotlight (The "God Ray" source) */}
                 <div
-                    className="absolute inset-0 opacity-[0.10] mix-blend-overlay pointer-events-none"
-                    style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
-                    }}
+                    className="absolute -top-[20%] -left-[10%] w-[70%] h-[70%] rounded-full opacity-20 blur-[120px]"
+                    style={{ background: "radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0) 70%)" }}
                 />
 
-                {/* Vignette */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(11,15,20,0.8)_85%)]" />
-            </motion.div>
+                {/* 2. Bottom Fog (Seamless blend to next section) */}
+                <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
+            </div>
 
             {/* Content Layer */}
             <div className="relative z-10 container mx-auto px-6 md:px-12 lg:px-24">
@@ -44,7 +31,7 @@ export function Hero() {
                     <div className="font-display text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-foreground mb-6">
                         <TextReveal text="The OS that remembers" className="mb-2" />
                         <div className="text-muted-foreground">
-                            <TextReveal text="your work." delay={0.4} />
+                            <TextReveal text="your work." delay={0.2} /> {/* Faster follow-up */}
                         </div>
                     </div>
 
@@ -54,7 +41,7 @@ export function Hero() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{
                             duration: 0.8,
-                            delay: 1.2, // Wait for text reveal
+                            delay: 0.5, // Much earlier (was 1.2)
                             ease: [0.22, 1, 0.36, 1],
                         }}
                     >
@@ -70,7 +57,7 @@ export function Hero() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{
                             duration: 0.8,
-                            delay: 1.4,
+                            delay: 0.7, // (was 1.4)
                             ease: [0.22, 1, 0.36, 1],
                         }}
                         className="flex flex-col sm:flex-row items-start sm:items-center gap-4"

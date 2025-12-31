@@ -43,7 +43,7 @@ export function ProductExperience() {
 
     return (
         <section ref={containerRef} className="relative h-[500vh] bg-background">
-            <div className="sticky top-0 h-screen overflow-hidden flex flex-col items-center justify-center p-4 md:p-8">
+            <div className="sticky top-0 h-screen overflow-hidden flex flex-col items-center justify-start pt-20 px-4 pb-8 gap-2">
 
                 {/* Dynamic Ambient Background - Enhanced Visibility */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none select-none">
@@ -69,7 +69,7 @@ export function ProductExperience() {
                 </div>
 
                 {/* Fixed Header Text Area - Increased Tracking & Line Height */}
-                <div className="w-full max-w-xl px-4 text-center mb-8 relative z-20 h-24 shrink-0 flex flex-col justify-center">
+                <div className="w-full max-w-xl px-4 text-center mb-4 relative z-20 h-24 shrink-0 flex flex-col justify-center">
                     <AnimatePresence mode="wait">
                         {(mode === "invoke" || mode === "ghost") && (
                             <motion.div

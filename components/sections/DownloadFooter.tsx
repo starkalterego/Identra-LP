@@ -6,7 +6,7 @@ import { MagneticButton } from "@/components/ui/MagneticButton";
 
 export function DownloadFooter() {
     return (
-        <section className="w-full py-32 md:py-48 bg-black relative overflow-hidden flex flex-col items-center border-t border-white/[0.05]">
+        <section className="w-full pt-24 pb-8 md:pt-32 md:pb-12 bg-black relative overflow-hidden flex flex-col items-center border-t border-white/[0.05]">
             {/* Ambient Background - Ultra subtle premium texture */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.03)_0%,transparent_50%)] pointer-events-none" />
 
@@ -51,7 +51,7 @@ export function DownloadFooter() {
             <div className="container px-6 relative z-10 w-full max-w-7xl mx-auto">
 
                 {/* Main Content Split: Text Left, Buttons Right */}
-                <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
+                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-12">
 
                     {/* Left: Headline & Subhead */}
                     <div className="text-left max-w-2xl">

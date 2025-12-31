@@ -16,22 +16,19 @@ export function TextReveal({ text, className = "", delay = 0, duration = 1 }: Te
     useEffect(() => {
         const ctx = gsap.context(() => {
             gsap.fromTo(
-                ".char",
+                ".word",
                 {
-                    y: 60,
+                    y: "110%", // Start fully below the line
                     opacity: 0,
-                    filter: "blur(12px)",
-                    rotateX: -60,
-                    transformOrigin: "50% 50% -50px",
+                    rotateZ: 5, // Subtle slight rotation for "loose" feel
                 },
                 {
-                    y: 0,
+                    y: "0%",
                     opacity: 1,
-                    filter: "blur(0px)",
-                    rotateX: 0,
-                    duration: duration,
-                    stagger: 0.04,
-                    ease: "power3.out",
+                    rotateZ: 0,
+                    duration: 1.0,
+                    stagger: 0.1, // Stagger entire words
+                    ease: "power4.out", // Sharp, snappy professional curve
                     delay: delay,
                 }
             );
@@ -40,21 +37,18 @@ export function TextReveal({ text, className = "", delay = 0, duration = 1 }: Te
         return () => ctx.revert();
     }, [text, delay, duration]);
 
-    // Split text into words, then characters, to preserve word wrapping
+    // Masked Word Reveal
     const renderContent = () => {
         const words = text.split(" ");
-
         return words.map((word, wordIndex) => (
-            <span key={wordIndex} className="inline-block whitespace-nowrap mr-[0.25em]">
-                {word.split("").map((char, charIndex) => (
-                    <span
-                        key={charIndex}
-                        className="char inline-block"
-                        style={{ whiteSpace: "normal" }}
-                    >
-                        {char}
-                    </span>
-                ))}
+            // Overflow hidden wrapper acts as the "mask"
+            <span key={wordIndex} className="inline-block overflow-hidden align-bottom mr-[0.25em] -mb-2 pb-2">
+                <span
+                    className="word inline-block will-change-transform" // Optimized target
+                    style={{ whiteSpace: "normal" }}
+                >
+                    {word}
+                </span>
             </span>
         ));
     };

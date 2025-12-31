@@ -56,7 +56,7 @@ export function HowIdentraWorks() {
                 }}
             />
 
-            <div className="sticky top-0 h-screen overflow-hidden flex items-center py-12">
+            <div className="sticky top-0 h-screen overflow-hidden flex items-center pt-32 pb-12">
                 <div className="container mx-auto px-6">
                     <div className="relative max-w-5xl mx-auto">
 
