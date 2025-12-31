@@ -66,7 +66,32 @@ function GeometricFlux() {
 
 
 
-            // 3. Dynamic Moving Light (Shifting Reflections)
+            // 3. Exit Transition (Problem -> How It Works)
+            // Trigger: When next section rises
+            gsap.to(groupRef.current!.position, {
+                z: -50, // Fly away deep into background
+                ease: "power2.in",
+                scrollTrigger: {
+                    trigger: "#how-it-works-section",
+                    start: "top bottom", // Starts when section top hits viewport bottom
+                    end: "top center",   // Ends when section top hits center
+                    scrub: 1,
+                }
+            });
+            gsap.to(groupRef.current!.scale, {
+                x: 0,
+                y: 0,
+                z: 0,
+                ease: "power2.in",
+                scrollTrigger: {
+                    trigger: "#how-it-works-section",
+                    start: "top bottom",
+                    end: "top center",
+                    scrub: 1,
+                }
+            });
+
+            // 4. Dynamic Moving Light (Shifting Reflections)
             if (lightRef.current) {
                 gsap.to(lightRef.current.position, {
                     x: 10,

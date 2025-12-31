@@ -46,7 +46,7 @@ export function HowIdentraWorks() {
     });
 
     return (
-        <section ref={containerRef} className="relative h-[400vh] bg-background">
+        <section id="how-it-works-section" ref={containerRef} className="relative z-20 -mt-[50vh] h-[400vh] bg-gradient-to-b from-transparent via-background to-background">
             {/* Subtle background field */}
             <div
                 className="absolute inset-0 opacity-[0.015] pointer-events-none"

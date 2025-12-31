@@ -20,6 +20,10 @@ export function ProblemInsight() {
     // Subtle background vignette that lightens slightly as we progress through statements
     const backgroundLightness = useTransform(scrollYProgress, [0, 1], [0, 0.02]);
 
+    // Diffusion effect
+    const blur = useTransform(scrollYProgress, [0.95, 1], ["blur(0px)", "blur(10px)"]);
+    const contentOpacity = useTransform(scrollYProgress, [0.95, 1], [1, 0.4]);
+
     return (
         <section id="problem-section" ref={containerRef} className="relative h-[300vh] bg-transparent z-10 w-full">
             {/* Subtle grain texture for depth */}
@@ -35,7 +39,7 @@ export function ProblemInsight() {
 
 
             <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
-                <div className="relative w-full text-center h-full flex items-center justify-center">
+                <motion.div style={{ filter: blur, opacity: contentOpacity }} className="relative w-full text-center h-full flex items-center justify-center">
                     {STATEMENTS.map((text, i) => (
                         <Statement
                             key={i}
@@ -45,9 +49,9 @@ export function ProblemInsight() {
                             progress={scrollYProgress}
                         />
                     ))}
-                </div>
+                </motion.div>
             </div>
-        </section>
+        </section >
     );
 }
 
@@ -75,7 +79,7 @@ function Statement({
             ? [start, start + 0.15, end - 0.05, end]
             : [start, start + 0.15, end - 0.15, end],
         isLast
-            ? [0, 1, 1, 1] // Final statement stays visible
+            ? [0, 1, 1, 0] // Final statement fades out for transition
             : [0, 1, 1, 0]
     );
 
