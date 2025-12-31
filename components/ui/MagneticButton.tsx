@@ -13,12 +13,23 @@ export function MagneticButton({ children, className = "", strength = 0.5 }: Mag
     const magnetic = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        if (!magnetic.current) return;
+
         const xTo = gsap.quickTo(magnetic.current, "x", { duration: 1, ease: "elastic.out(1, 0.3)" });
         const yTo = gsap.quickTo(magnetic.current, "y", { duration: 1, ease: "elastic.out(1, 0.3)" });
 
+        let boundingRect: DOMRect | null = null;
+
+        const mouseEnter = () => {
+            if (magnetic.current) {
+                boundingRect = magnetic.current.getBoundingClientRect();
+            }
+        };
+
         const mouseMove = (e: MouseEvent) => {
+            if (!boundingRect) return;
             const { clientX, clientY } = e;
-            const { height, width, left, top } = magnetic.current!.getBoundingClientRect();
+            const { height, width, left, top } = boundingRect;
             const x = clientX - (left + width / 2);
             const y = clientY - (top + height / 2);
 
@@ -29,19 +40,18 @@ export function MagneticButton({ children, className = "", strength = 0.5 }: Mag
         const mouseLeave = () => {
             xTo(0);
             yTo(0);
+            boundingRect = null; // Reset
         };
 
         const element = magnetic.current;
-        if (element) {
-            element.addEventListener("mousemove", mouseMove);
-            element.addEventListener("mouseleave", mouseLeave);
-        }
+        element.addEventListener("mouseenter", mouseEnter);
+        element.addEventListener("mousemove", mouseMove);
+        element.addEventListener("mouseleave", mouseLeave);
 
         return () => {
-            if (element) {
-                element.removeEventListener("mousemove", mouseMove);
-                element.removeEventListener("mouseleave", mouseLeave);
-            }
+            element.removeEventListener("mouseenter", mouseEnter);
+            element.removeEventListener("mousemove", mouseMove);
+            element.removeEventListener("mouseleave", mouseLeave);
         };
     }, [strength]);
 

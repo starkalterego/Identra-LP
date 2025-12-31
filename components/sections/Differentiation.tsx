@@ -65,10 +65,10 @@ export function Differentiation() {
                             {/* Headers (Desktop Only) */}
                             <div className="hidden md:block col-span-2">
                                 <div className="grid grid-cols-2 gap-12">
-                                    <div className="pl-12 text-xs font-mono text-white/40 uppercase tracking-widest flex items-center gap-2">
+                                    <div className="pl-12 text-xs font-mono text-white/70 uppercase tracking-widest flex items-center gap-2">
                                         Identra
                                     </div>
-                                    <div className="text-xs font-mono text-white/20 uppercase tracking-widest">
+                                    <div className="text-xs font-mono text-white/50 uppercase tracking-widest">
                                         Others
                                     </div>
                                 </div>

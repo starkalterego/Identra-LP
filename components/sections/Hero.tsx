@@ -8,10 +8,10 @@ import { MagneticButton } from "@/components/ui/MagneticButton";
 import { useRef } from "react";
 
 export function Hero() {
-    const containerRef = useRef<HTMLDivElement>(null);
+    // containerRef removed as it was unused
 
     return (
-        <section ref={containerRef} className="relative h-screen w-full flex items-center overflow-hidden bg-transparent">
+        <section className="relative h-screen w-full flex items-center overflow-hidden bg-transparent">
             {/* Atmosphere Layer: Volumetric Light & Fog */}
             <div className="absolute inset-0 pointer-events-none z-0">
                 {/* 1. Top-Left Spotlight (The "God Ray" source) */}

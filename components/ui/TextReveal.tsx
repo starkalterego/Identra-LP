@@ -18,17 +18,18 @@ export function TextReveal({ text, className = "", delay = 0, duration = 1 }: Te
             gsap.fromTo(
                 ".word",
                 {
-                    y: "110%", // Start fully below the line
                     opacity: 0,
-                    rotateZ: 5, // Subtle slight rotation for "loose" feel
+                    y: 20, // Slight slide up
+                    filter: "blur(12px)", // Cinematic blur start
+                    transform: "translateZ(0)", // GPU
                 },
                 {
-                    y: "0%",
                     opacity: 1,
-                    rotateZ: 0,
-                    duration: 1.0,
-                    stagger: 0.1, // Stagger entire words
-                    ease: "power4.out", // Sharp, snappy professional curve
+                    y: 0,
+                    filter: "blur(0px)",
+                    duration: 1.4, // Slower, luxurious timing
+                    stagger: 0.04, // Tight ripple
+                    ease: "power2.out", // Soft landing
                     delay: delay,
                 }
             );
@@ -45,7 +46,12 @@ export function TextReveal({ text, className = "", delay = 0, duration = 1 }: Te
             <span key={wordIndex} className="inline-block overflow-hidden align-bottom mr-[0.25em] -mb-2 pb-2">
                 <span
                     className="word inline-block will-change-transform" // Optimized target
-                    style={{ whiteSpace: "normal" }}
+                    style={{
+                        opacity: 0, // Prevent FOUC
+                        whiteSpace: "normal",
+                        backfaceVisibility: "hidden", // Fix jagged edges
+                        WebkitFontSmoothing: "antialiased"
+                    }}
                 >
                     {word}
                 </span>

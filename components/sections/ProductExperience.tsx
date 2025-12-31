@@ -164,7 +164,7 @@ export function ProductExperience() {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0 }}
                                     transition={{ duration: 0.4, delay: 0.15 }} // 150ms delay
-                                    className="text-sm font-mono text-muted-foreground/40 tracking-widest uppercase"
+                                    className="text-sm font-mono text-muted-foreground/70 tracking-widest uppercase"
                                 >
                                     Press to invoke
                                 </motion.p>
