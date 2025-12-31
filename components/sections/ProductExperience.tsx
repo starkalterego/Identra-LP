@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { Command, Search, Sparkles, FileText, Code2, MessageSquare, Keyboard, Brain, Zap, Bot, ChevronDown, Check } from "lucide-react";
+import { ShutterReveal } from "@/components/ui/ShutterReveal";
 
 export function ProductExperience() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -124,8 +125,8 @@ export function ProductExperience() {
                     </AnimatePresence>
                 </div>
 
-                {/* VISUAL STAGE - WIDER (max-w-7xl) */}
-                <div className="relative w-full max-w-7xl max-h-[70vh] aspect-[16/9] flex items-center justify-center shrink-1">
+                {/* VISUAL STAGE - WIDER (max-w-7xl) - with Shutter Reveal */}
+                <ShutterReveal className="relative w-full max-w-7xl max-h-[70vh] aspect-[16/9] flex items-center justify-center shrink-1">
 
                     {/* 1. SHORTCUT CUE (Invoke State) */}
                     <AnimatePresence>
@@ -373,7 +374,7 @@ export function ProductExperience() {
 
                         </div>
                     </motion.div>
-                </div>
+                </ShutterReveal>
 
                 {/* Footer text - Consistent */}
                 <motion.div
@@ -384,6 +385,6 @@ export function ProductExperience() {
                 </motion.div>
 
             </div>
-        </section>
+        </section >
     );
 }

@@ -3,7 +3,9 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { MemoryField } from "@/components/ui/MemoryField";
+import { NeuralWaves } from "@/components/ui/NeuralWaves";
+import { TextReveal } from "@/components/ui/TextReveal";
+import { MagneticButton } from "@/components/ui/MagneticButton";
 import { useRef } from "react";
 
 export function Hero() {
@@ -20,54 +22,39 @@ export function Hero() {
                 style={{ opacity: backgroundOpacity }}
                 className="absolute inset-0 z-0 pointer-events-none"
             >
-                <MemoryField />
+                {/* New GSAP/Canvas Neural Stream */}
+                <NeuralWaves />
 
-                {/* User Requested Hero Background Stack - Simplified for Clarity */}
-                <div className="absolute inset-0 overflow-hidden">
-                    {/* Subtle diagonal noise - Texture only */}
-                    <div
-                        className="absolute inset-0 opacity-[0.15] mix-blend-overlay"
-                        style={{
-                            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
-                        }}
-                    />
-                </div>
-
-                {/* Enhanced radial vignette for depth */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(11,15,20,0.8)_85%)]" />
-
-                {/* Additional grain texture for depth */}
+                {/* Subtle Grain Texture (Kept for finish) */}
                 <div
-                    className="absolute inset-0 opacity-[0.015] mix-blend-overlay pointer-events-none"
+                    className="absolute inset-0 opacity-[0.10] mix-blend-overlay pointer-events-none"
                     style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E")`,
-                        backgroundSize: '200px 200px'
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`
                     }}
                 />
+
+                {/* Vignette */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(11,15,20,0.8)_85%)]" />
             </motion.div>
 
             {/* Content Layer */}
             <div className="relative z-10 container mx-auto px-6 md:px-12 lg:px-24">
                 <div className="max-w-4xl">
-                    {/* Headline - First to appear */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 12 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                        <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-foreground leading-[1.1] mb-6">
-                            The OS that remembers <br />
-                            <span className="text-muted-foreground">your work.</span>
-                        </h1>
-                    </motion.div>
+                    {/* Headline - GSAP Staggered Reveal */}
+                    <div className="font-display text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-foreground mb-6">
+                        <TextReveal text="The OS that remembers" className="mb-2" />
+                        <div className="text-muted-foreground">
+                            <TextReveal text="your work." delay={0.4} />
+                        </div>
+                    </div>
 
-                    {/* Subheadline - Second */}
+                    {/* Subheadline - Delayed Entrance */}
                     <motion.div
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{
-                            duration: 0.4,
-                            delay: 0.15,
+                            duration: 0.8,
+                            delay: 1.2, // Wait for text reveal
                             ease: [0.22, 1, 0.36, 1],
                         }}
                     >
@@ -77,25 +64,30 @@ export function Hero() {
                         </h2>
                     </motion.div>
 
-                    {/* CTAs - Last */}
+                    {/* CTAs - Delayed Entrance */}
                     <motion.div
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{
-                            duration: 0.4,
-                            delay: 0.3,
+                            duration: 0.8,
+                            delay: 1.4,
                             ease: [0.22, 1, 0.36, 1],
                         }}
                         className="flex flex-col sm:flex-row items-start sm:items-center gap-4"
                     >
-                        <Button size="lg" className="rounded-full px-10 group transition-all hover:-translate-y-0.5 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] bg-foreground text-background font-semibold text-base">
-                            <Download className="mr-2 h-4 w-4" />
-                            Download Desktop App
-                        </Button>
-                        <Button variant="ghost" size="lg" className="rounded-full px-8 border border-white/5 bg-white/[0.02] hover:bg-white/10 group backdrop-blur-sm transition-all hover:border-white/10">
-                            See how it works
-                            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 opacity-70" />
-                        </Button>
+                        <MagneticButton strength={0.4}>
+                            <Button size="lg" className="rounded-full px-10 group transition-all hover:-translate-y-0.5 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] bg-foreground text-background font-semibold text-base">
+                                <Download className="mr-2 h-4 w-4" />
+                                Download Desktop App
+                            </Button>
+                        </MagneticButton>
+
+                        <MagneticButton strength={0.3}>
+                            <Button variant="ghost" size="lg" className="rounded-full px-8 border border-white/5 bg-white/[0.02] hover:bg-white/10 group backdrop-blur-sm transition-all hover:border-white/10">
+                                See how it works
+                                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 opacity-70" />
+                            </Button>
+                        </MagneticButton>
                     </motion.div>
                 </div>
             </div>
