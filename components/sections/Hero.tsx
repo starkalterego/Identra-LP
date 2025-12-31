@@ -14,11 +14,7 @@ export function Hero() {
         <section className="relative h-screen w-full flex items-center overflow-hidden bg-transparent">
             {/* Atmosphere Layer: Volumetric Light & Fog */}
             <div className="absolute inset-0 pointer-events-none z-0">
-                {/* 1. Top-Left Spotlight (The "God Ray" source) */}
-                <div
-                    className="absolute -top-[20%] -left-[10%] w-[70%] h-[70%] rounded-full opacity-20 blur-[120px]"
-                    style={{ background: "radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0) 70%)" }}
-                />
+                {/* 1. Top-Left Spotlight REMOVED */}
 
                 {/* 2. Bottom Fog (Seamless blend to next section) */}
                 <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
