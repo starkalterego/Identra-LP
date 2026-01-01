@@ -98,7 +98,7 @@ export function HowIdentraWorks() {
             {/* Horizontal Track - Aligned Bottom to clear Header */}
             <div
                 ref={sectionRef}
-                className="flex items-end h-full pb-12 md:pb-16 pl-[5vw] pr-[20vw] md:pl-[30vw] md:pr-[20vw] gap-[5vw] md:gap-[15vw] w-fit"
+                className="flex items-end h-full pb-24 md:pb-32 pl-[5vw] pr-[20vw] md:pl-[30vw] md:pr-[20vw] gap-[5vw] md:gap-[15vw] w-fit"
             >
                 {STEPS.map((step, index) => {
                     const isActive = index === activeIndex;
@@ -109,45 +109,39 @@ export function HowIdentraWorks() {
                         >
                             {/* Card Container - Full Height of Parent */}
                             <div className="relative group h-full flex flex-col">
-                                {/* Glass Background */}
-                                <div className="absolute inset-0 bg-white/5 backdrop-blur-2xl rounded-3xl border border-white/10 transition-colors duration-500 group-hover:bg-white/10 overflow-hidden">
+                                {/* Dark Monolith Background */}
+                                <div className={`absolute inset-0 rounded-3xl transition-all duration-700 ease-out border ${isActive ? 'bg-gradient-to-br from-[#0f0f10] to-black border-white/20 shadow-[0_0_80px_-20px_rgba(255,255,255,0.1)]' : 'bg-black/40 border-white/5'}`}>
                                     {/* Noise Texture */}
-                                    <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} />
+                                    <div className="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} />
+
+                                    {/* Inner Top Highlight (Gloss) */}
+                                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-50" />
                                 </div>
 
-                                {/* Active Glow Border */}
-                                <div className={`absolute inset-0 rounded-3xl border transition-opacity duration-700 ${isActive ? 'border-primary/50 opacity-100 shadow-[0_0_50px_-10px_rgba(79,209,197,0.2)]' : 'border-transparent opacity-0'}`} />
-
-                                <div className="relative p-8 md:p-12 flex flex-col gap-8">
-                                    {/* Minimalist Header */}
-                                    <div className="flex flex-col gap-6">
-                                        {/* Technical Badge */}
-                                        <div className="flex items-center gap-3">
-                                            <div className={`h-px w-8 transition-colors duration-500 ${isActive ? 'bg-primary' : 'bg-white/20'}`} />
-                                            <span className={`font-mono text-xs tracking-[0.2em] uppercase transition-colors duration-500 ${isActive ? 'text-primary' : 'text-white/40'}`}>
+                                {/* Content Container */}
+                                <div className="relative h-full p-8 md:p-12 flex flex-col justify-between">
+                                    {/* Top: Tag */}
+                                    <div className="flex items-start justify-between">
+                                        <div className={`flex flex-col gap-2 transition-all duration-500 ${isActive ? 'opacity-100 translate-y-0' : 'opacity-40 translate-y-2'}`}>
+                                            <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-white/50">
                                                 SYS_MOD_0{index + 1}
                                             </span>
+                                            {/* Precision Line */}
+                                            <div className={`h-px w-full bg-gradient-to-r from-primary to-transparent transition-all duration-700 ${isActive ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
                                         </div>
-
-                                        {/* Large Editorial Title */}
-                                        <h3 className="text-3xl md:text-5xl font-display font-medium text-white leading-tight">
-                                            {step.title}
-                                        </h3>
                                     </div>
 
-                                    {/* Tech Divider */}
-                                    <div className="w-full h-px bg-gradient-to-r from-white/10 to-transparent" />
+                                    {/* Bottom: Title & Description */}
+                                    <div className="flex flex-col gap-6 md:gap-8">
+                                        <h3 className={`text-5xl md:text-7xl font-display font-light tracking-tighter text-white leading-[0.9] transition-all duration-700 ${isActive ? 'translate-x-0' : '-translate-x-4'}`}>
+                                            {step.title}
+                                        </h3>
 
-                                    {/* Description */}
-                                    <p className="text-muted-foreground leading-relaxed text-sm md:text-lg max-w-xl">
-                                        {step.description}
-                                    </p>
-
-                                    {/* Bottom Connectors Visual */}
-                                    <div className="w-full h-px bg-white/5 mt-4 relative overflow-hidden">
-                                        {isActive && (
-                                            <div className="absolute inset-0 bg-primary/50 w-full h-full animate-progress-line" />
-                                        )}
+                                        <div className={`overflow-hidden transition-all duration-700 delay-100 ${isActive ? 'max-h-40 opacity-80' : 'max-h-0 opacity-0'}`}>
+                                            <p className="text-lg text-white/60 font-light leading-relaxed max-w-xl">
+                                                {step.description}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
