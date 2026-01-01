@@ -21,8 +21,10 @@ export function ProblemInsight() {
     const backgroundLightness = useTransform(scrollYProgress, [0, 1], [0, 0.02]);
 
     // Diffusion effect
-    const blur = useTransform(scrollYProgress, [0.95, 1], ["blur(0px)", "blur(10px)"]);
-    const contentOpacity = useTransform(scrollYProgress, [0.95, 1], [1, 0.4]);
+    const blur = useTransform(scrollYProgress, [0.90, 1], ["blur(0px)", "blur(20px)"]);
+    const contentOpacity = useTransform(scrollYProgress, [0.90, 1], [1, 0]);
+    const scale = useTransform(scrollYProgress, [0.90, 1], [1, 0.9]);
+    const y = useTransform(scrollYProgress, [0.90, 1], [0, -50]);
 
     return (
         <section id="problem-section" ref={containerRef} className="relative h-[300vh] bg-transparent z-10 w-full">
@@ -39,7 +41,7 @@ export function ProblemInsight() {
 
 
             <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
-                <motion.div style={{ filter: blur, opacity: contentOpacity }} className="relative w-full text-center h-full flex items-center justify-center">
+                <motion.div style={{ filter: blur, opacity: contentOpacity, scale, y }} className="relative w-full text-center h-full flex items-center justify-center">
                     {STATEMENTS.map((text, i) => (
                         <Statement
                             key={i}
