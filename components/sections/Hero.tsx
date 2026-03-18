@@ -1,11 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Download } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { TextReveal } from "@/components/ui/TextReveal";
-import { MagneticButton } from "@/components/ui/MagneticButton";
-import { useRef } from "react";
+import { ArrowRight } from "lucide-react";
+import { LayoutTextFlip } from "@/components/ui/LayoutTextFlip";
+import { WaitlistForm } from "@/components/ui/WaitlistForm";
 
 export function Hero() {
     // containerRef removed as it was unused
@@ -21,14 +19,21 @@ export function Hero() {
 
 
             {/* Content Layer */}
-            <div className="relative z-10 container mx-auto px-6 md:px-12 lg:px-24">
-                <div className="max-w-4xl">
-                    {/* Headline - GSAP Staggered Reveal */}
+            <div className="relative z-10 container mx-auto px-6 md:px-12 lg:px-24 w-full">
+                <div className="max-w-5xl">
+                    {/* Headline - Flipping Effect */}
                     <div className="font-display text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-foreground mb-6">
-                        <TextReveal text="The OS that remembers" className="mb-2" />
-                        <div className="text-muted-foreground">
-                            <TextReveal text="your work." delay={0.2} /> {/* Faster follow-up */}
-                        </div>
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                        >
+                            <LayoutTextFlip
+                                text="The OS that remembers"
+                                words={["your work.", "your ideas.", "your system.", "your context."]}
+                                wordClassName="text-white/40"
+                            />
+                        </motion.div>
                     </div>
 
                     {/* Subheadline - Delayed Entrance */}
@@ -56,21 +61,28 @@ export function Hero() {
                             delay: 0.7, // (was 1.4)
                             ease: [0.22, 1, 0.36, 1],
                         }}
-                        className="flex flex-col sm:flex-row items-start sm:items-center gap-4"
+                        className="flex flex-col w-full max-w-lg mt-4"
                     >
-                        <MagneticButton strength={0.4}>
-                            <Button size="lg" className="rounded-full px-10 group transition-all hover:-translate-y-0.5 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] bg-foreground text-background font-semibold text-base">
-                                <Download className="mr-2 h-4 w-4" />
-                                Download Desktop App
-                            </Button>
-                        </MagneticButton>
-
-                        <MagneticButton strength={0.3}>
-                            <Button variant="ghost" size="lg" className="rounded-full px-8 border border-white/5 bg-white/[0.02] hover:bg-white/10 group backdrop-blur-sm transition-all hover:border-white/10">
-                                See how it works
-                                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 opacity-70" />
-                            </Button>
-                        </MagneticButton>
+                        <WaitlistForm />
+                        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4 text-sm text-white/40">
+                            <div className="flex items-center gap-3">
+                                <span className="flex h-6 items-center rounded-full border border-white/10 bg-white/5 px-3 text-[10px] font-semibold uppercase tracking-widest text-white/70 backdrop-blur-md shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
+                                     Limited
+                                </span>
+                                <span className="font-light tracking-wide">Early access spots opening soon</span>
+                            </div>
+                            <span className="hidden sm:block text-white/20 font-thin">|</span>
+                            <a 
+                                href="#howidentraworks" 
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    document.querySelector('#howidentraworks')?.scrollIntoView({ behavior: 'smooth' });
+                                }}
+                                className="flex items-center text-white/60 hover:text-white transition-colors duration-300 cursor-pointer group font-light tracking-wide decoration-transparent"
+                            >
+                                Explore architecture <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 opacity-70" />
+                            </a>
+                        </div>
                     </motion.div>
                 </div>
             </div>

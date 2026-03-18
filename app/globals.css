@@ -65,8 +65,8 @@
   --radius: 0.5rem;
 }
 
-body {
-  background: var(--background);
+html, body {
+  background: transparent !important;
   color: var(--foreground);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

@@ -93,9 +93,9 @@ function Statement({
             className="absolute inset-0 flex items-center justify-center p-6 w-full h-full pointer-events-none"
         >
             <h2
-                className={`font-display tracking-tight text-foreground leading-tight text-center max-w-4xl transition-all ${isLast
+                className={`font-display tracking-tight text-foreground leading-tight text-center max-w-4xl px-4 transition-all ${isLast
                     ? 'text-4xl md:text-5xl lg:text-6xl font-semibold' // Final insight: larger, heavier
-                    : 'text-3xl md:text-4xl lg:text-5xl font-normal opacity-90' // Problems: lighter weight, slightly lower opacity
+                    : 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal opacity-90' // Problems: lighter weight, slightly lower opacity
                     }`}
             >
                 {text}

@@ -102,7 +102,7 @@ export function Differentiation() {
                                             className="flex items-center gap-6 md:pl-12 relative"
                                         >
                                             {/* Micro Index */}
-                                            <span className="absolute -left-4 md:left-2 text-[10px] font-mono text-white/10 tabular-nums">
+                                            <span className="absolute left-[-1.5rem] md:left-2 text-[10px] font-mono text-white/30 md:text-white/10 tabular-nums">
                                                 0{index + 1}
                                             </span>
 
@@ -115,17 +115,17 @@ export function Differentiation() {
                                                 />
                                             </div>
 
-                                            <span className="text-xl md:text-2xl text-white font-medium tracking-tight">
+                                            <span className="text-xl md:text-2xl text-white font-medium tracking-tight whitespace-nowrap md:whitespace-normal text-ellipsis overflow-hidden max-w-full">
                                                 {spec.identra}
                                             </span>
                                         </motion.div>
 
                                         {/* Others Column (Right) */}
-                                        <div className="flex items-center gap-6 md:pl-0">
+                                        <div className="flex items-center gap-4 md:gap-6 md:pl-0">
                                             {/* Hollow/Faint Node */}
-                                            <div className="w-1.5 h-1.5 rounded-full border border-white/10 bg-transparent" />
+                                            <div className="w-1.5 h-1.5 rounded-full border border-white/10 bg-transparent shrink-0" />
 
-                                            <span className="text-xl md:text-2xl text-white/30 font-normal">
+                                            <span className="text-lg md:text-2xl text-white/30 font-normal whitespace-nowrap md:whitespace-normal text-ellipsis overflow-hidden max-w-full">
                                                 {spec.others}
                                             </span>
                                         </div>

@@ -126,7 +126,7 @@ export function ProductExperience() {
                 </div>
 
                 {/* VISUAL STAGE - WIDER (max-w-7xl) - with Shutter Reveal */}
-                <ShutterReveal className="relative w-full max-w-7xl max-h-[70vh] aspect-[16/9] flex items-center justify-center shrink-1">
+                <ShutterReveal className="relative w-full max-w-7xl max-h-[60vh] md:max-h-[70vh] aspect-square md:aspect-[16/9] flex items-center justify-center shrink-1">
 
                     {/* 1. SHORTCUT CUE (Invoke State) */}
                     <AnimatePresence>
@@ -144,7 +144,7 @@ export function ProductExperience() {
                                     {/* Intensified static glow */}
                                     <div className="absolute inset-0 -z-10 bg-primary/40 blur-[80px] rounded-full opacity-80 scale-150" />
 
-                                    <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-2 sm:gap-4 scale-75 md:scale-100">
                                         <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shadow-2xl backdrop-blur-md">
                                             <svg className="w-10 h-10 text-foreground/80" viewBox="0 0 24 24" fill="currentColor">
                                                 <path d="M0 3.449L9.75 4.823V11.5h-9.75V3.449zm10.504 1.309l12.748 1.733V11.5H10.504V4.758zM0 12.25h9.75v8.051L0 21.551V12.25zm10.504 0h12.748v6.793l-12.748 1.733V12.25z" />

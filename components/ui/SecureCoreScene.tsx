@@ -1,35 +1,125 @@
 "use client";
 
-import { useRef, useLayoutEffect, useMemo, Suspense } from "react";
+import { useRef, useLayoutEffect, Suspense, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, Float, Line, AdaptiveDpr, Preload } from "@react-three/drei";
+import { Environment, AdaptiveDpr, Preload, Sparkles, RoundedBox, Float } from "@react-three/drei";
 import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// Register GSAP ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
-function GeometricFlux() {
+function MetallicRubiksCube() {
     const groupRef = useRef<THREE.Group>(null);
-    const lightRef = useRef<THREE.Group>(null);
-
-    // High-Fidelity Shapes with individual parallax factors
-    const shapes = useMemo(() => {
-        return [
-            { pos: [4, 0, 0], scale: 2.2, speed: 0.1, type: 'dodeca', parallax: 1.5 },   // Center Right (Fastest)
-            { pos: [0, 5, -4], scale: 1.8, speed: 0.2, type: 'octa', parallax: 0.8 },    // Mid Right Back (Slow)
-            { pos: [8, -4, -2], scale: 1.4, speed: 0.15, type: 'icosa', parallax: 2.5 }, // Far Right Front (Very Fast)
-            { pos: [2, -6, 3], scale: 1.0, speed: 0.25, type: 'dodeca', parallax: 3.0 }, // Low Mid Front (Super Fast)
-            { pos: [6, 7, -6], scale: 2.0, speed: 0.1, type: 'octa', parallax: 0.5 },    // Top Right Back (Very Slow)
-        ];
+    const pivotRef = useRef<THREE.Group>(null);
+    const cubesGroupRef = useRef<THREE.Group>(null);
+    
+    // Initial positions for the 27 cubes
+    const cubes = useMemo(() => {
+        const temp = [];
+        const offset = 1.02; // Tighter spacing between cubes for a seamless block feel
+        for (let x = -1; x <= 1; x++) {
+            for (let y = -1; y <= 1; y++) {
+                for (let z = -1; z <= 1; z++) {
+                    temp.push({
+                        x: x * offset,
+                        y: y * offset,
+                        z: z * offset,
+                        origX: x * offset,
+                        origY: y * offset,
+                        origZ: z * offset,
+                    });
+                }
+            }
+        }
+        return temp;
     }, []);
+
+    useFrame((state) => {
+        if (groupRef.current) {
+            // Continuous smooth rotation for the whole puzzle
+            groupRef.current.rotation.y = state.clock.elapsedTime * 0.15;
+            groupRef.current.rotation.x = state.clock.elapsedTime * 0.08;
+        }
+    });
 
     useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            // 1. Global Rotation (Base)
-            gsap.to(groupRef.current!.rotation, {
-                y: 1.5,
+            if (!cubesGroupRef.current || !pivotRef.current || !groupRef.current) return;
+
+            const allCubes = [...cubesGroupRef.current.children];
+
+            const sequence = [
+                { axis: 'y', dir: 1, layer: 1.02 },
+                { axis: 'x', dir: -1, layer: 1.02 },
+                { axis: 'z', dir: 1, layer: -1.02 },
+                { axis: 'y', dir: -1, layer: 0 },
+                { axis: 'x', dir: 1, layer: -1.02 },
+                { axis: 'z', dir: -1, layer: 1.02 },
+            ];
+
+            // 1. Instantly scramble the cube before paint
+            sequence.forEach(move => {
+                const angle = move.dir * (Math.PI / 2);
+                const meshes = cubesGroupRef.current!.children.filter(
+                    (c: any) => c.isMesh && Math.abs(c.position[move.axis as 'x'|'y'|'z'] - move.layer) < 0.2
+                );
+                
+                meshes.forEach(m => pivotRef.current!.attach(m));
+                pivotRef.current!.rotation[move.axis as 'x'|'y'|'z'] = angle;
+                meshes.forEach(m => cubesGroupRef.current!.attach(m));
+                pivotRef.current!.rotation.set(0, 0, 0);
+
+                // Grid snap to prevent floating point drift
+                meshes.forEach(m => {
+                    m.position.x = Math.round(m.position.x / 1.02) * 1.02;
+                    m.position.y = Math.round(m.position.y / 1.02) * 1.02;
+                    m.position.z = Math.round(m.position.z / 1.02) * 1.02;
+                    m.rotation.x = Math.round(m.rotation.x / (Math.PI/2)) * (Math.PI/2);
+                    m.rotation.y = Math.round(m.rotation.y / (Math.PI/2)) * (Math.PI/2);
+                    m.rotation.z = Math.round(m.rotation.z / (Math.PI/2)) * (Math.PI/2);
+                });
+            });
+
+            // 2. Play the elegant "Solving" sequence
+            const solveTl = gsap.timeline({ delay: 0.5 });
+            [...sequence].reverse().forEach((move, index) => {
+                solveTl.add(() => {
+                    if (!pivotRef.current || !cubesGroupRef.current) return;
+                    
+                    const angle = -move.dir * (Math.PI / 2);
+                    const meshes = cubesGroupRef.current.children.filter(
+                        (c: any) => c.isMesh && Math.abs(c.position[move.axis as 'x'|'y'|'z'] - move.layer) < 0.2
+                    );
+
+                    meshes.forEach(m => pivotRef.current!.attach(m));
+
+                    gsap.to(pivotRef.current!.rotation, {
+                        [move.axis]: angle,
+                        duration: 0.8,
+                        ease: "back.out(1.4)",
+                        onComplete: () => {
+                            if (!pivotRef.current || !cubesGroupRef.current) return;
+                            meshes.forEach(m => cubesGroupRef.current!.attach(m));
+                            pivotRef.current!.rotation.set(0, 0, 0);
+                            
+                            meshes.forEach(m => {
+                                m.position.x = Math.round(m.position.x / 1.02) * 1.02;
+                                m.position.y = Math.round(m.position.y / 1.02) * 1.02;
+                                m.position.z = Math.round(m.position.z / 1.02) * 1.02;
+                                m.rotation.x = Math.round(m.rotation.x / (Math.PI/2)) * (Math.PI/2);
+                                m.rotation.y = Math.round(m.rotation.y / (Math.PI/2)) * (Math.PI/2);
+                                m.rotation.z = Math.round(m.rotation.z / (Math.PI/2)) * (Math.PI/2);
+                            });
+                        }
+                    });
+                }, index * 1.1);
+            });
+
+            // 3. Scroll Interactions
+            gsap.to(groupRef.current!.position, {
+                y: 2,
+                z: -5,
                 ease: "none",
                 scrollTrigger: {
                     trigger: document.body,
@@ -39,10 +129,6 @@ function GeometricFlux() {
                 }
             });
 
-            // 2. Section-Based Transformation Narrative
-
-            // "Problem" Section: Chaos/Dispersal
-            // Trigger: When #problem-section enters viewport
             const problemTimeline = gsap.timeline({
                 scrollTrigger: {
                     trigger: "#problem-section",
@@ -52,29 +138,34 @@ function GeometricFlux() {
                 }
             });
 
-            // Disperse shapes
-            groupRef.current!.children.forEach((mesh, i) => {
+            allCubes.forEach((mesh: any) => {
+                if (!mesh.isMesh) return;
+                const targetX = mesh.userData.origX * 5.0;
+                const targetY = mesh.userData.origY * 5.0;
+                const targetZ = mesh.userData.origZ * 5.0;
+                
                 problemTimeline.to(mesh.position, {
-                    x: (Math.random() - 0.5) * 15, // Scatter wide
-                    y: (Math.random() - 0.5) * 15,
-                    z: (Math.random() - 0.5) * 5,
-                    rotation: Math.random() * Math.PI,
+                    x: targetX,
+                    y: targetY,
+                    z: targetZ,
+                    ease: "power2.inOut"
+                }, 0);
+
+                problemTimeline.to(mesh.rotation, {
+                    x: Math.random() * Math.PI * 2,
+                    y: Math.random() * Math.PI * 2,
+                    z: Math.random() * Math.PI * 2,
                     ease: "power2.inOut"
                 }, 0);
             });
 
-
-
-
-            // 3. Exit Transition (Problem -> How It Works)
-            // Trigger: When next section rises
             gsap.to(groupRef.current!.position, {
-                z: -50, // Fly away deep into background
+                z: -40, 
                 ease: "power2.in",
                 scrollTrigger: {
-                    trigger: "#how-it-works-section",
-                    start: "top bottom", // Starts when section top hits viewport bottom
-                    end: "top center",   // Ends when section top hits center
+                    trigger: "#howidentraworks",
+                    start: "top bottom", 
+                    end: "top center",   
                     scrub: 1,
                 }
             });
@@ -84,90 +175,49 @@ function GeometricFlux() {
                 z: 0,
                 ease: "power2.in",
                 scrollTrigger: {
-                    trigger: "#how-it-works-section",
+                    trigger: "#howidentraworks",
                     start: "top bottom",
                     end: "top center",
                     scrub: 1,
                 }
             });
-
-            // 4. Dynamic Moving Light (Shifting Reflections)
-            if (lightRef.current) {
-                gsap.to(lightRef.current.position, {
-                    x: 10,
-                    y: -10,
-                    z: 5,
-                    ease: "power2.inOut",
-                    scrollTrigger: {
-                        trigger: document.body,
-                        start: "top top",
-                        end: "bottom bottom",
-                        scrub: 2,
-                    }
-                });
-            }
         });
         return () => ctx.revert();
-    }, [shapes]);
+    }, []);
 
-    // Memoize materials to prevent re-compilation on every instance
-    const obsidianMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({
-        color: "#0a0a0a",
-        roughness: 0.05,
-        metalness: 0.9,
-        transmission: 0.2,
-        thickness: 3,
-        clearcoat: 1,
-        clearcoatRoughness: 0,
-        reflectivity: 1,
-        iridescence: 0.8,
-        iridescenceIOR: 2.2
+    // Ultra-Premium Dark Gunmetal / Obsidian Finish
+    const metallicMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({
+        color: "#0d0d12",      // Deep black/gunmetal base
+        emissive: "#000000",   
+        metalness: 1.0,        // Fully metallic
+        roughness: 0.15,       // Slight diffusion for a heavy, expensive matte-shine look
+        clearcoat: 1.0,        // Glossy outer shell
+        clearcoatRoughness: 0.05, 
+        envMapIntensity: 2.5,  // Bright enough to catch the studio highlights
+        iridescence: 0.1,      // Extremely subtle tech sheen
+        iridescenceIOR: 1.4,
     }), []);
-
-    const wireframeMaterial = useMemo(() => new THREE.MeshBasicMaterial({
-        color: "#ffffff",
-        wireframe: true,
-        transparent: true,
-        opacity: 0.03
-    }), []);
-
-    // Reuse geometries
-    const dodecaGeo = useMemo(() => new THREE.DodecahedronGeometry(1, 0), []);
-    const octaGeo = useMemo(() => new THREE.OctahedronGeometry(1, 0), []);
-    const icosaGeo = useMemo(() => new THREE.IcosahedronGeometry(1, 0), []);
-
-    const getGeometry = (type: string, scale: number) => {
-        // Clone and scale is cheaper than new geometry, but even better is just scaling the mesh
-        // Here we just return the base geo and let the mesh handle scale
-        switch (type) {
-            case 'dodeca': return dodecaGeo;
-            case 'octa': return octaGeo;
-            case 'icosa': return icosaGeo;
-            default: return dodecaGeo;
-        }
-    };
 
     return (
-        <>
-            <group ref={groupRef}>
-                {shapes.map((shape, i) => (
-                    <Float key={i} speed={shape.speed} rotationIntensity={0.8} floatIntensity={0.8}>
-                        <group position={shape.pos as [number, number, number]} scale={shape.scale}>
-                            {/* Main Shape */}
-                            <mesh geometry={getGeometry(shape.type, shape.scale)} material={obsidianMaterial} />
-
-                            {/* Wireframe Overlay */}
-                            <mesh geometry={getGeometry(shape.type, shape.scale)} material={wireframeMaterial} scale={1.01} />
-                        </group>
-                    </Float>
-                ))}
+        <Float speed={2.0} rotationIntensity={0.4} floatIntensity={1.2}>
+            {/* Positioned cleanly on the right, scaled down */}
+            <group ref={groupRef} position={[3.8, -0.2, -4.5]} scale={1.05}>
+                <group ref={pivotRef} />
+                <group ref={cubesGroupRef}>
+                    {cubes.map((data, i) => (
+                        <RoundedBox 
+                            key={i} 
+                            args={[0.98, 0.98, 0.98]} 
+                            radius={0.06} 
+                            smoothness={4} 
+                            position={[data.x, data.y, data.z]}
+                            userData={{ origX: data.origX, origY: data.origY, origZ: data.origZ }}
+                            material={metallicMaterial}
+                        />
+                    ))}
+                </group>
             </group>
-
-            {/* Dynamic Scroll Light */}
-            <group ref={lightRef} position={[-10, 10, 5]}>
-                <pointLight intensity={5} color="#4fd1c5" distance={30} decay={2} />
-            </group>
-        </>
+        </Float>
     );
 }
 
@@ -175,39 +225,43 @@ export function SecureCoreScene() {
     return (
         <div
             id="global-scene-container"
-            className="fixed inset-0 z-[-1] pointer-events-none bg-black" // Fixed background behind everything
+            className="fixed inset-0 w-full h-full z-0 pointer-events-none bg-[#030304]"
         >
             <Canvas
                 camera={{ position: [0, 0, 12], fov: 35 }}
                 gl={{
                     antialias: true,
                     alpha: false,
-                    powerPreference: "high-performance", // Request discrete GPU
-                    stencil: false, // Not using stencil buffer
+                    powerPreference: "high-performance",
+                    stencil: false,
                     depth: true
                 }}
-                dpr={[1, 1.5]} // Cap DPR at 1.5 to save battery/perf on mobile/retina
+                dpr={[1, 1.5]}
             >
                 <color attach="background" args={['#030304']} />
 
-                {/* Performance Managers */}
                 <AdaptiveDpr pixelated />
                 <Preload all />
 
                 <fog attach="fog" args={['#030304', 5, 30]} />
 
                 <Suspense fallback={null}>
-                    <Environment preset="city" />
-                    <GeometricFlux />
+                    <Environment preset="studio" />
                 </Suspense>
+                
+                <MetallicRubiksCube />
 
-                <ambientLight intensity={2.0} />
-                <rectAreaLight width={20} height={20} position={[0, 10, 0]} color={"#4fd1c5"} intensity={3} />
-                <pointLight position={[-10, 5, -5]} intensity={2} color="#6366f1" />
-                <pointLight position={[10, -5, 5]} intensity={2} color="#ffffff" />
+                <Sparkles count={800} scale={15} size={1.2} speed={0.4} opacity={0.15} color="#ffffff" />
+                <Sparkles count={200} scale={12} size={2.5} speed={0.8} opacity={0.25} color="#4fd1c5" />
+
+                {/* Reduced ambient wash to allow real metallic contrast, boosted point lights for bright highlights */}
+                <ambientLight intensity={0.4} />
+                <rectAreaLight width={20} height={20} position={[0, 10, 0]} color={"#ffffff"} intensity={8} />
+                <pointLight position={[-10, 5, -5]} intensity={25} color="#6366f1" />
+                <pointLight position={[10, -5, 5]} intensity={30} color="#ffffff" />
+                <pointLight position={[5, 10, 5]} intensity={15} color="#4fd1c5" />
             </Canvas>
 
-            {/* Vignette Overlay */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)] opacity-60" />
         </div>
     );
