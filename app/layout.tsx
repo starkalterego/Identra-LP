@@ -1,5 +1,6 @@
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
 import { Navbar } from "@/components/ui/Navbar";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
@@ -37,6 +38,7 @@ export default function RootLayout({
         <Navbar />
         <SmoothScroll />
         {children}
+        <Analytics />
       </body>
     </html>
   );
