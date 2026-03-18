@@ -6,6 +6,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function joinWaitlist(formData: FormData) {
   const email = formData.get("email") as string;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://identra.dev";
+  const logoUrl = `${siteUrl.replace(/\/$/, "")}/identra-logo.svg`;
 
   if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
     return { error: "Please provide a valid email address." };
@@ -49,7 +51,10 @@ https://identra.dev`,
         <div style="background:#f5f7fb;padding:32px 16px;font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#111827;">
           <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;">
             <div style="padding:20px 24px;border-bottom:1px solid #e5e7eb;background:#0b1220;">
-              <div style="font-size:13px;letter-spacing:1.5px;color:#e5e7eb;font-weight:600;">IDENTRA</div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <img src="${logoUrl}" alt="Identra" width="180" height="36" style="display:block;border:0;outline:none;text-decoration:none;max-width:100%;height:auto;" />
+                <span style="font-size:13px;letter-spacing:1.5px;color:#e5e7eb;font-weight:600;display:none;">IDENTRA</span>
+              </div>
             </div>
             <div style="padding:28px 24px;">
               <h1 style="margin:0 0 16px;font-size:22px;line-height:1.3;color:#0f172a;font-weight:600;">Your waitlist request is confirmed</h1>
