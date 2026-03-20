@@ -21,8 +21,56 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Identra — The OS That Remembers",
-  description: "Secure, local-first memory for your digital life.",
+  metadataBase: new URL("https://identra.dev"),
+  title: {
+    default: "Identra — The OS That Remembers",
+    template: "%s | Identra",
+  },
+  description: "A confidential AI operating layer built for deep focus, persistent context, and secure workflows.",
+  keywords: [
+    "AI Operating System",
+    "Confidential AI",
+    "Local-first AI",
+    "Secure Workflows",
+    "Developer Tools",
+    "Identra"
+  ],
+  authors: [{ name: "Identra" }],
+  creator: "Identra",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://identra.dev",
+    title: "Identra — The OS That Remembers",
+    description: "A confidential AI operating layer built for deep focus, persistent context, and secure workflows.",
+    siteName: "Identra",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Identra - Confidential AI Operating Layer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Identra — The OS That Remembers",
+    description: "A confidential AI operating layer built for deep focus, persistent context, and secure workflows.",
+    images: ["/og-image.png"],
+    creator: "@IdentraHQ",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export default function RootLayout({

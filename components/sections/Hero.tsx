@@ -22,7 +22,7 @@ export function Hero() {
             <div className="relative z-10 container mx-auto px-6 md:px-12 lg:px-24 w-full">
                 <div className="max-w-5xl">
                     {/* Headline - Flipping Effect */}
-                    <div className="font-display text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-foreground mb-6">
+                    <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-foreground mb-6">
                         <motion.div 
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -34,7 +34,7 @@ export function Hero() {
                                 wordClassName="text-white/40"
                             />
                         </motion.div>
-                    </div>
+                    </h1>
 
                     {/* Subheadline - Delayed Entrance */}
                     <motion.div
