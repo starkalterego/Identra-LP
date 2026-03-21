@@ -182,7 +182,7 @@ export function ProductExperience() {
                         }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
                     >
-                        <div className="bg-[#141416]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl p-6 overflow-hidden ring-1 ring-white/5 mx-4 md:mx-0">
+                        <div className="bg-[#141416]/95 backdrop-blur-md md:backdrop-blur-md md:backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl p-6 overflow-hidden ring-1 ring-white/5 mx-4 md:mx-0">
                             <div className="flex items-center gap-4 text-xl text-muted-foreground mb-6">
                                 <Command className="w-6 h-6 shrink-0 opacity-70" />
                                 <span className="whitespace-nowrap opacity-90">Ask Identra...</span>

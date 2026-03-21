@@ -131,12 +131,12 @@ export function HowIdentraWorks() {
                     return (
                         <div
                             key={index}
-                            className={`mobile-step-card relative flex-shrink-0 w-full md:w-[45vw] lg:w-[30vw] h-auto min-h-[40vh] md:min-h-[50vh] max-h-[75vh] flex flex-col justify-end transition-all duration-700 ease-out md:${isActive ? 'scale-100 opacity-100 blur-0' : 'scale-90 opacity-30 blur-[2px]'}`}
+                            className={`mobile-step-card relative flex-shrink-0 w-full md:w-[45vw] lg:w-[30vw] h-auto min-h-[40vh] md:min-h-[50vh] max-h-[75vh] flex flex-col justify-end transition-all duration-700 ease-out opacity-100 scale-100 blur-0 ${isActive ? 'md:scale-100 md:opacity-100 md:blur-0' : 'md:scale-90 md:opacity-30 md:blur-[2px]'}`}
                         >
                             {/* Card Container - Full Height of Parent */}
                             <div className="relative group h-full flex flex-col w-full">
                                 {/* Dark Monolith Background */}
-                                <div className={`absolute inset-0 rounded-3xl transition-all duration-700 ease-out border md:${isActive ? 'bg-gradient-to-br from-[#0f0f10] to-black border-white/20 shadow-[0_0_80px_-20px_rgba(255,255,255,0.1)]' : 'bg-black/40 border-white/5'} bg-gradient-to-br from-[#0f0f10] to-black border-white/20`}>
+                                <div className={`absolute inset-0 rounded-3xl transition-all duration-700 ease-out border ${isActive ? 'md:bg-gradient-to-br md:from-[#0f0f10] md:to-black md:border-white/20 md:shadow-[0_0_80px_-20px_rgba(255,255,255,0.1)]' : 'md:bg-black/40 md:border-white/5'} bg-gradient-to-br from-[#0f0f10] to-black border-white/20`}>
                                     {/* Noise Texture */}
                                     <div className="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-overlay" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} />
 
@@ -148,22 +148,22 @@ export function HowIdentraWorks() {
                                 <div className="relative h-full p-8 md:p-12 flex flex-col justify-between">
                                     {/* Top: Tag */}
                                     <div className="flex items-start justify-between">
-                                        <div className={`flex flex-col gap-2 transition-all duration-500 md:${isActive ? 'opacity-100 translate-y-0' : 'opacity-40 translate-y-2'}`}>
+                                        <div className={`flex flex-col gap-2 transition-all duration-500 ${isActive ? 'md:opacity-100 md:translate-y-0' : 'md:opacity-40 md:translate-y-2'}`}>
                                             <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-white/50">
                                                 SYS_MOD_0{index + 1}
                                             </span>
                                             {/* Precision Line */}
-                                            <div className={`h-px bg-gradient-to-r from-primary to-transparent transition-all duration-700 w-full md:${isActive ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
+                                            <div className={`h-px bg-gradient-to-r from-primary to-transparent transition-all duration-700 w-full ${isActive ? 'md:w-full md:opacity-100' : 'md:w-0 md:opacity-0'}`} />
                                         </div>
                                     </div>
 
                                     {/* Bottom: Title & Description */}
                                     <div className="flex flex-col gap-4 md:gap-8 mt-12 md:mt-0">
-                                        <h3 className={`text-4xl md:text-5xl lg:text-7xl font-display font-light tracking-tighter text-white leading-[1] transition-all duration-700 md:${isActive ? 'translate-x-0' : '-translate-x-4'}`}>
+                                        <h3 className={`text-4xl md:text-5xl lg:text-7xl font-display font-light tracking-tighter text-white leading-[1] transition-all duration-700 ${isActive ? 'md:translate-x-0' : 'md:-translate-x-4'}`}>
                                             {step.title}
                                         </h3>
 
-                                        <div className={`overflow-hidden transition-all duration-700 delay-100 md:${isActive ? 'max-h-40 opacity-80' : 'max-h-0 opacity-0'} max-h-40 opacity-80`}>
+                                        <div className={`overflow-hidden transition-all duration-700 delay-100 ${isActive ? 'md:max-h-40 md:opacity-80' : 'md:max-h-0 md:opacity-0'} max-h-40 opacity-80`}>
                                             <p className="text-base md:text-lg text-white/60 font-light leading-relaxed max-w-xl">
                                                 {step.description}
                                             </p>

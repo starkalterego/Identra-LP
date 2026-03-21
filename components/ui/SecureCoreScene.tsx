@@ -44,8 +44,27 @@ function MetallicRubiksCube() {
     });
 
     useLayoutEffect(() => {
-        const ctx = gsap.context(() => {
+        let mm = gsap.matchMedia();
+
+        mm.add({
+            isDesktop: "(min-width: 768px)",
+            isMobile: "(max-width: 767px)"
+        }, (context) => {
+            let { isDesktop, isMobile } = context.conditions as any;
+            
             if (!cubesGroupRef.current || !pivotRef.current || !groupRef.current) return;
+
+            // Base scale and position adjustment for mobile 
+            gsap.set(groupRef.current.scale, { 
+                x: isDesktop ? 1.05 : 0.65, 
+                y: isDesktop ? 1.05 : 0.65, 
+                z: isDesktop ? 1.05 : 0.65 
+            });
+            gsap.set(groupRef.current.position, { 
+                x: isDesktop ? 3.8 : 0, 
+                y: isDesktop ? -0.2 : -3.5, // Pulls the cube safely to the bottom of the phone screen
+                z: -4.5 
+            });
 
             const allCubes = [...cubesGroupRef.current.children];
 
@@ -116,16 +135,17 @@ function MetallicRubiksCube() {
                 }, index * 1.1);
             });
 
-            // 3. Scroll Interactions
+            // 3. Scroll Interactions Responsive
             gsap.to(groupRef.current!.position, {
-                y: 2,
-                z: -5,
+                y: isDesktop ? 2 : 0, // travel less on mobile
+                z: isDesktop ? -5 : -3, 
                 ease: "none",
                 scrollTrigger: {
                     trigger: document.body,
                     start: "top top",
                     end: "bottom bottom",
-                    scrub: 1,
+                    scrub: isDesktop ? 1 : 0.8,
+                    invalidateOnRefresh: true,
                 }
             });
 
@@ -134,69 +154,76 @@ function MetallicRubiksCube() {
                     trigger: "#problem-section",
                     start: "top center",
                     end: "bottom center",
-                    scrub: 1.5,
+                    scrub: isDesktop ? 1.5 : 1,
+                    invalidateOnRefresh: true,
                 }
             });
 
+            const spreadFactor = isDesktop ? 5.0 : 2.5; 
+            const rotFactor = isDesktop ? (Math.PI * 2) : Math.PI;
+
             allCubes.forEach((mesh: any) => {
                 if (!mesh.isMesh) return;
-                const targetX = mesh.userData.origX * 5.0;
-                const targetY = mesh.userData.origY * 5.0;
-                const targetZ = mesh.userData.origZ * 5.0;
                 
                 problemTimeline.to(mesh.position, {
-                    x: targetX,
-                    y: targetY,
-                    z: targetZ,
+                    x: mesh.userData.origX * spreadFactor,
+                    y: mesh.userData.origY * spreadFactor,
+                    z: mesh.userData.origZ * spreadFactor,
                     ease: "power2.inOut"
                 }, 0);
 
                 problemTimeline.to(mesh.rotation, {
-                    x: Math.random() * Math.PI * 2,
-                    y: Math.random() * Math.PI * 2,
-                    z: Math.random() * Math.PI * 2,
+                    x: Math.random() * rotFactor,
+                    y: Math.random() * rotFactor,
+                    z: Math.random() * rotFactor,
                     ease: "power2.inOut"
                 }, 0);
             });
 
             gsap.to(groupRef.current!.position, {
-                z: -40, 
+                z: isDesktop ? -40 : -20, 
                 ease: "power2.in",
                 scrollTrigger: {
                     trigger: "#howidentraworks",
                     start: "top bottom", 
                     end: "top center",   
-                    scrub: 1,
+                    scrub: isDesktop ? 1 : 0.8,
+                    invalidateOnRefresh: true,
                 }
             });
-            gsap.to(groupRef.current!.scale, {
-                x: 0,
-                y: 0,
-                z: 0,
-                ease: "power2.in",
-                scrollTrigger: {
-                    trigger: "#howidentraworks",
-                    start: "top bottom",
-                    end: "top center",
-                    scrub: 1,
-                }
-            });
+            
+            if (isDesktop) {
+                gsap.to(groupRef.current!.scale, {
+                    x: 0,
+                    y: 0,
+                    z: 0,
+                    ease: "power2.in",
+                    scrollTrigger: {
+                        trigger: "#howidentraworks",
+                        start: "top bottom",
+                        end: "top center",
+                        scrub: 1,
+                    }
+                });
+            }
         });
-        return () => ctx.revert();
+
+        return () => mm.revert(); // clean up matchMedia context
     }, []);
 
-    // Ultra-Premium Dark Gunmetal / Obsidian Finish
+    // Adaptive Premium Material (Drops heavy features on mobile)
+    const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
     const metallicMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({
-        color: "#0d0d12",      // Deep black/gunmetal base
+        color: "#0d0d12",
         emissive: "#000000",   
-        metalness: 1.0,        // Fully metallic
-        roughness: 0.15,       // Slight diffusion for a heavy, expensive matte-shine look
-        clearcoat: 1.0,        // Glossy outer shell
+        metalness: 0.9,        
+        roughness: 0.2,       
+        clearcoat: isMobile ? 0 : 1.0,        // Disable expensive clearcoat on mobile
         clearcoatRoughness: 0.05, 
-        envMapIntensity: 2.5,  // Bright enough to catch the studio highlights
-        iridescence: 0.1,      // Extremely subtle tech sheen
+        envMapIntensity: isMobile ? 1.5 : 2.5,  
+        iridescence: isMobile ? 0 : 0.1,      // Disable iridescence on mobile
         iridescenceIOR: 1.4,
-    }), []);
+    }), [isMobile]);
 
     return (
         <Float speed={2.0} rotationIntensity={0.4} floatIntensity={1.2}>
@@ -230,13 +257,13 @@ export function SecureCoreScene() {
             <Canvas
                 camera={{ position: [0, 0, 12], fov: 35 }}
                 gl={{
-                    antialias: true,
+                    antialias: typeof window !== 'undefined' && window.innerWidth > 768, // Disable AA on mobile
                     alpha: false,
                     powerPreference: "high-performance",
                     stencil: false,
                     depth: true
                 }}
-                dpr={[1, 1.5]}
+                dpr={typeof window !== 'undefined' && window.innerWidth > 768 ? [1, 1.5] : 1} // Limit to 1 on mobile
             >
                 <color attach="background" args={['#030304']} />
 
@@ -251,15 +278,17 @@ export function SecureCoreScene() {
                 
                 <MetallicRubiksCube />
 
-                <Sparkles count={800} scale={15} size={1.2} speed={0.4} opacity={0.15} color="#ffffff" />
-                <Sparkles count={200} scale={12} size={2.5} speed={0.8} opacity={0.25} color="#4fd1c5" />
+                {/* Optimize light & sparkles for performance */}
+                <group visible={typeof window !== 'undefined' && window.innerWidth > 768}>
+                    <Sparkles count={400} scale={15} size={1.2} speed={0.4} opacity={0.15} color="#ffffff" />
+                    <Sparkles count={100} scale={12} size={2.5} speed={0.8} opacity={0.25} color="#4fd1c5" />
+                    <rectAreaLight width={20} height={20} position={[0, 10, 0]} color={"#ffffff"} intensity={8} />
+                </group>
 
-                {/* Reduced ambient wash to allow real metallic contrast, boosted point lights for bright highlights */}
                 <ambientLight intensity={0.4} />
-                <rectAreaLight width={20} height={20} position={[0, 10, 0]} color={"#ffffff"} intensity={8} />
-                <pointLight position={[-10, 5, -5]} intensity={25} color="#6366f1" />
-                <pointLight position={[10, -5, 5]} intensity={30} color="#ffffff" />
-                <pointLight position={[5, 10, 5]} intensity={15} color="#4fd1c5" />
+                <pointLight position={[-10, 5, -5]} intensity={15} color="#6366f1" />
+                <pointLight position={[10, -5, 5]} intensity={20} color="#ffffff" />
+                <pointLight position={[5, 10, 5]} intensity={10} color="#4fd1c5" />
             </Canvas>
 
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)] opacity-60" />

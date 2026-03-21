@@ -66,11 +66,14 @@
 }
 
 html, body {
-  background: transparent !important;
+  background-color: #030304 !important;
+  color-scheme: dark;
   color: var(--foreground);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+  max-width: 100vw;
 }
 
 @keyframes drift {

@@ -58,7 +58,7 @@ export function WaitlistForm() {
             {/* Animated Glow Backdrop */}
             <div className="absolute -inset-0.5 bg-gradient-to-r from-white/20 via-white/5 to-white/20 rounded-[2rem] md:rounded-full blur-md opacity-0 group-hover:opacity-30 group-focus-within:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-            <div className="relative flex md:items-center md:flex-row flex-col bg-white/[0.02] border border-white/10 group-hover:border-white/20 group-focus-within:border-white/30 group-focus-within:bg-white/[0.04] transition-all duration-500 rounded-[1.5rem] md:rounded-full p-1 md:p-1.5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] backdrop-blur-xl">
+            <div className="relative flex md:items-center md:flex-row flex-col bg-white/[0.02] border border-white/10 group-hover:border-white/20 group-focus-within:border-white/30 group-focus-within:bg-white/[0.04] transition-all duration-500 rounded-[1.5rem] md:rounded-full p-1 md:p-1.5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] backdrop-blur-md md:backdrop-blur-md md:backdrop-blur-xl">
               <input
                 type="email"
                 required

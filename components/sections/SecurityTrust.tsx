@@ -20,7 +20,8 @@ export function SecurityTrust() {
     // Card 1: INFRASTRUCTURE (Base Layer)
     const card1Scale = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
     const card1Opacity = useTransform(scrollYProgress, [0.3, 0.8], [1, 0.5]);
-    const card1Filter = useTransform(scrollYProgress, [0.3, 0.8], ["blur(0px)", "blur(4px)"]);
+    // Removed heavy dynamic blur for mobile performance
+    // const card1Filter = useTransform(scrollYProgress, [0.3, 0.8], ["blur(0px)", "blur(4px)"]);
 
     // Card 2: RUNTIME (Middle Layer)
     // Enters from bottom, slides to cover ~85%
@@ -63,13 +64,13 @@ export function SecurityTrust() {
 
                     {/* --- CARD 1: TRANSPORT --- */}
                     <motion.div
-                        className="absolute inset-0 w-full h-[380px] rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl flex flex-col overflow-hidden z-10"
-                        style={{ scale: card1Scale, opacity: card1Opacity, filter: card1Filter }}
+                        className="absolute inset-0 w-full h-[380px] rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-md md:backdrop-blur-xl flex flex-col overflow-hidden z-10"
+                        style={{ scale: card1Scale, opacity: card1Opacity }}
                     >
                         {/* Identify Stripe */}
                         <div className="w-full h-1 bg-blue-500/30" />
 
-                        <div className="p-8 md:p-10 flex items-start gap-8 h-full">
+                        <div className="p-6 md:p-10 flex items-start gap-4 md:gap-8 h-full">
                             {/* Icon Box */}
                             <div className="hidden md:flex flex-col items-center gap-4 pt-2">
                                 <div className="w-12 h-12 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center text-white/70 shadow-lg shadow-black/20">
@@ -81,23 +82,23 @@ export function SecurityTrust() {
                             {/* Content */}
                             <div className="flex-1">
                                 <div className="flex justify-between items-center mb-3">
-                                    <h3 className="text-2xl font-medium text-white">Transport Layer</h3>
+                                    <h3 className="text-xl md:text-xl md:text-2xl font-medium text-white">Transport Layer</h3>
                                     <span className="text-[10px] font-mono text-blue-400 border border-blue-500/20 px-3 py-1 rounded-full bg-blue-500/10 tracking-widest">INFRASTRUCTURE</span>
                                 </div>
 
-                                <p className="text-base text-muted-foreground/80 leading-relaxed mb-8 max-w-2xl">
+                                <p className="text-sm md:text-sm md:text-base text-muted-foreground/80 leading-relaxed mb-8 max-w-2xl">
                                     All data in transit is protected by <span className="text-white/90 font-medium">AES-256 encryption</span> across our global edge network. No plaintext ever touches the wire.
                                 </p>
 
                                 {/* Visualization */}
-                                <div className="w-full h-32 rounded-lg border border-white/5 bg-black/30 p-6 relative overflow-hidden group">
+                                <div className="w-full h-32 rounded-lg border border-white/5 bg-black/30 p-4 md:p-4 md:p-6 relative overflow-hidden group">
                                     <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(59,130,246,0.05)_50%,transparent_100%)] animate-[shimmer_4s_infinite]" />
                                     <div className="flex justify-between text-[10px] font-mono text-white/40 mb-4 tracking-widest uppercase">
                                         <span>TLS 1.3 Handshake</span>
                                         <span className="text-blue-400">Verified</span>
                                     </div>
                                     <div className="flex gap-2 mt-2">
-                                        {[...Array(16)].map((_, i) => (
+                                        {[...Array(8)].map((_, i) => (
                                             <motion.div
                                                 key={i}
                                                 className="h-1.5 w-full bg-blue-500/10 rounded-full overflow-hidden"
@@ -118,13 +119,13 @@ export function SecurityTrust() {
 
                     {/* --- CARD 2: MEMORY --- */}
                     <motion.div
-                        className="absolute inset-0 w-full h-[380px] rounded-xl border border-white/10 bg-[#0c0c0c] shadow-[0_-10px_40px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden z-20"
+                        className="absolute inset-0 w-full h-[380px] rounded-xl border border-white/10 bg-[#0c0c0c] shadow-2xl md:shadow-[0_-10px_40px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden z-20"
                         style={{ y: card2Y, scale: card2Scale }}
                     >
                         {/* Identify Stripe */}
                         <div className="w-full h-1 bg-emerald-500/30" />
 
-                        <div className="p-8 md:p-10 flex items-start gap-8 h-full">
+                        <div className="p-6 md:p-10 flex items-start gap-4 md:gap-8 h-full">
                             {/* Icon Box */}
                             <div className="hidden md:flex flex-col items-center gap-4 pt-2">
                                 <div className="w-12 h-12 rounded-lg border border-white/10 bg-white/5 flex items-center justify-center text-white/70 shadow-lg shadow-black/20">
@@ -136,16 +137,16 @@ export function SecurityTrust() {
                             {/* Content */}
                             <div className="flex-1">
                                 <div className="flex justify-between items-center mb-3">
-                                    <h3 className="text-2xl font-medium text-white">Ephemeral Memory</h3>
+                                    <h3 className="text-xl md:text-xl md:text-2xl font-medium text-white">Ephemeral Memory</h3>
                                     <span className="text-[10px] font-mono text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full bg-emerald-500/10 tracking-widest">RUNTIME</span>
                                 </div>
 
-                                <p className="text-base text-muted-foreground/80 leading-relaxed mb-8 max-w-2xl">
+                                <p className="text-sm md:text-sm md:text-base text-muted-foreground/80 leading-relaxed mb-8 max-w-2xl">
                                     Zero persistence processing. Data exists only in <span className="text-white/90 font-medium">volatile memory</span> during execution and is instantly wiped upon completion.
                                 </p>
 
                                 {/* Visualization */}
-                                <div className="w-full h-32 rounded-lg border border-white/5 bg-black/50 p-6 relative overflow-hidden flex items-center justify-center">
+                                <div className="w-full h-32 rounded-lg border border-white/5 bg-black/50 p-4 md:p-4 md:p-6 relative overflow-hidden flex items-center justify-center">
                                     <div className="text-xs font-mono text-emerald-500/50 tracking-[0.2em] uppercase">No Disk Writes Detected</div>
                                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(16,185,129,0.03)_0%,transparent_100%)]" />
                                 </div>
@@ -156,13 +157,13 @@ export function SecurityTrust() {
 
                     {/* --- CARD 3: ENCLAVE --- */}
                     <motion.div
-                        className="absolute inset-0 w-full h-[380px] rounded-xl border border-white/20 bg-[#111] shadow-[0_-20px_80px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden z-30"
+                        className="absolute inset-0 w-full h-[380px] rounded-xl border border-white/20 bg-[#111] shadow-2xl md:shadow-[0_-20px_80px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden z-30"
                         style={{ y: card3Y }}
                     >
                         {/* Identify Stripe */}
                         <div className="w-full h-1 bg-white shadow-[0_0_20px_rgba(255,255,255,0.4)]" />
 
-                        <div className="p-8 md:p-10 flex items-start gap-8 h-full">
+                        <div className="p-6 md:p-10 flex items-start gap-4 md:gap-8 h-full">
                             {/* Icon Box */}
                             <div className="hidden md:flex flex-col items-center gap-4 pt-2">
                                 <div className="w-12 h-12 rounded-lg border border-white/30 bg-white/10 flex items-center justify-center text-white shadow-[0_0_20px_rgba(255,255,255,0.1)]">
@@ -173,16 +174,16 @@ export function SecurityTrust() {
                             {/* Content */}
                             <div className="flex-1">
                                 <div className="flex justify-between items-center mb-3">
-                                    <h3 className="text-2xl font-medium text-white">Secure Enclave</h3>
+                                    <h3 className="text-xl md:text-xl md:text-2xl font-medium text-white">Secure Enclave</h3>
                                     <span className="text-[10px] font-mono text-white border border-white/30 px-3 py-1 rounded-full bg-white/10 tracking-widest">HARDWARE</span>
                                 </div>
 
-                                <p className="text-base text-muted-foreground/80 leading-relaxed mb-8 max-w-2xl">
+                                <p className="text-sm md:text-sm md:text-base text-muted-foreground/80 leading-relaxed mb-8 max-w-2xl">
                                     Computation occurs within a <span className="text-white/90 font-medium">Trusted Execution Environment (TEE)</span>, isolated from the OS and hypervisor. Even we cannot see inside.
                                 </p>
 
                                 {/* Visualization */}
-                                <div className="w-full h-32 rounded-lg border border-white/10 bg-white/[0.03] p-6 flex items-center justify-between px-8 md:px-12">
+                                <div className="w-full h-32 rounded-lg border border-white/10 bg-white/[0.03] p-4 md:p-4 md:p-6 flex items-center justify-between px-8 md:px-12">
                                     <div className="flex flex-col gap-2">
                                         <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest">System Integrity</span>
                                         <div className="flex items-center gap-2">

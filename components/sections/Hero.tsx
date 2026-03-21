@@ -9,20 +9,18 @@ export function Hero() {
     // containerRef removed as it was unused
 
     return (
-        <section id="hero-section" className="relative h-screen w-full flex items-center overflow-hidden bg-transparent">
+        <section id="hero-section" className="relative min-h-[100svh] w-full flex flex-col justify-center pt-24 pb-12 md:pt-0 md:pb-0 overflow-hidden bg-transparent">
             {/* Atmosphere Layer: Volumetric Light & Fog */}
             <div className="absolute inset-0 pointer-events-none z-0">
-                {/* 1. Top-Left Spotlight REMOVED */}
-                {/* 2. Bottom Fog REMOVED */}
+                {/* Mobile Text Readability Gradient */}
+                <div className="absolute top-0 left-0 right-0 h-2/3 bg-gradient-to-b from-[#030304] via-[#030304]/80 to-transparent md:hidden z-0" />
             </div>
 
-
-
             {/* Content Layer */}
-            <div className="relative z-10 container mx-auto px-6 md:px-12 lg:px-24 w-full">
+            <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-12 lg:px-24 w-full">
                 <div className="max-w-5xl">
                     {/* Headline - Flipping Effect */}
-                    <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-foreground mb-6">
+                    <h1 className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight text-foreground mb-6">
                         <motion.div 
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -61,7 +59,7 @@ export function Hero() {
                             delay: 0.7, // (was 1.4)
                             ease: [0.22, 1, 0.36, 1],
                         }}
-                        className="flex flex-col w-full max-w-lg mt-4"
+                        className="flex flex-col w-full max-w-lg mt-8 md:mt-4"
                     >
                         <WaitlistForm />
                         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4 text-sm text-white/40">

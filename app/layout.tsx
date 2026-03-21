@@ -81,7 +81,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} antialiased text-foreground bg-transparent`}
+        className={`${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} antialiased text-foreground `}
       >
         <Navbar />
         <SmoothScroll />

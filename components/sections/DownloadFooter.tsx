@@ -12,7 +12,7 @@ export function DownloadFooter() {
 
             {/* Drifting Nebula 1 - Indigo */}
             <motion.div
-                className="absolute top-[-20%] left-[20%] w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none"
+                className="hidden md:block absolute top-[-20%] left-[20%] w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none"
                 animate={{
                     x: [0, 50, -50, 0],
                     y: [0, -30, 30, 0],
@@ -27,7 +27,7 @@ export function DownloadFooter() {
 
             {/* Drifting Nebula 2 - Teal/Cyan (Complementary) */}
             <motion.div
-                className="absolute top-[-10%] right-[20%] w-[500px] h-[500px] bg-teal-500/5 rounded-full blur-[100px] mix-blend-screen pointer-events-none"
+                className="hidden md:block absolute top-[-10%] right-[20%] w-[500px] h-[500px] bg-teal-500/5 rounded-full blur-[100px] mix-blend-screen pointer-events-none"
                 animate={{
                     x: [0, -30, 30, 0],
                     y: [0, 50, -50, 0],
@@ -43,7 +43,7 @@ export function DownloadFooter() {
 
             {/* Scanning Beam */}
             <motion.div
-                className="absolute inset-x-0 h-[200px] bg-gradient-to-b from-transparent via-indigo-500/5 to-transparent pointer-events-none"
+                className="hidden md:block absolute inset-x-0 h-[200px] bg-gradient-to-b from-transparent via-indigo-500/5 to-transparent pointer-events-none"
                 animate={{ top: ["-20%", "120%"] }}
                 transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
             />
@@ -82,7 +82,7 @@ export function DownloadFooter() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.3, duration: 0.6 }}
-                        className="w-full md:w-[450px]"
+                        className="w-full max-w-[100vw] md:w-[450px] overflow-hidden md:overflow-visible px-2 md:px-0"
                     >
                         <WaitlistForm />
                     </motion.div>
